@@ -109,11 +109,11 @@ def parse_battery_info(batinfo):
 
 def wait_for_drop():
     dropped = False
-    level = parse_battery_info(get_battery_info())["level"]
+    level = parse_battery_info(get_battery_info())["Charge counter"]
     starttime = time.time()
     finish_same_line()
     while not dropped:
-        currlevel = parse_battery_info(get_battery_info())["level"]
+        currlevel = parse_battery_info(get_battery_info())["Charge counter"]
         if level != currlevel:
             dropped = True
             break
