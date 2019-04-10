@@ -6,6 +6,10 @@ from utils.data_saver import DataSaver
 from utils.adb_utils import (
     get_phone_model,
     get_battery_info,
+    get_screen_timeout,
+    set_screen_timeout,
+    install_package,
+    uninstall_package,
     parse_battery_info,
     wait_for_drop,
 )
@@ -41,6 +45,14 @@ def main(args):
     print("Disabling charging...")
     model.disable_charging()
     input("Is it disabled?")
+
+    old_screentimeout = get_screen_timeout()
+    print("Old screen timeout: {}".format(old_screentimeout))
+    set_screen_timeout(12000000)
+
+    print("Installing app...")
+    if args.browser_apk:
+        install_package(args.browser_apk)
 
     print("Attempting to start %s test..." % args.color)
     start_color_test(args.color)
@@ -78,6 +90,10 @@ def main(args):
     for k, v in info.items():
         print("{}: {}".format(k, v))
 
+    set_screen_timeout(old_screentimeout)
+    if args.browser_apk:
+        uninstall_package(app=args.browser)
+
     print("Enabling charging...")
     model.enable_charging()
 
@@ -90,6 +106,16 @@ if __name__ == "__main__":
     parser = AndroidParser().get_parser()
     parser.add_argument(
         "--color", help="Color of background for the test.", required=True
+    )
+    parser.add_argument(
+        "--browser",
+        help="App name of the browser to test, i.e. org.mozilla.gecko.BrowserApp",
+        default=None
+    )
+    parser.add_argument(
+        "--browser-apk",
+        help="If the browser is not installed, provide the path to the APK to install.",
+        default=None
     )
 
     args = parser.parse_args()

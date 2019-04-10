@@ -52,6 +52,75 @@ def get_default_phone_model():
     return PixelPhone("Pixel_2")
 
 
+def get_screen_timeout():
+    res = subprocess.check_output(
+        ["adb", "shell", "settings", "get", "system", "screen_off_timeout"]
+    )
+    return res.decode('ascii').strip('\n')
+
+
+def set_screen_timeout(timeout):
+    subprocess.check_output(
+        [
+            "adb",
+            "shell",
+            "settings",
+            "put",
+            "system",
+            "screen_off_timeout",
+            str(timeout)
+        ]
+    )
+
+
+def get_mozilla_pkgname():
+    # There should only be one package
+    res = subprocess.check_output(
+        ["adb", "shell", "pm", "list", "packages", "mozilla"]
+    )
+    pkgname = res.decode('ascii').split(":")[-1].strip('\n')
+    return pkgname
+
+
+def close_package(pkgname):
+    subprocess.check_output(["adb", "shell", "am", "force-stop", pkgname])
+
+
+def install_package(path_to_apk):
+    try:
+        res = subprocess.check_output(["adb", "install", "-r", "-g", path_to_apk])
+        print(res)
+
+        pkgname = get_mozilla_pkgname()
+        if pkgname == 'org.mozilla.firefox':
+            # Start it once and then close it
+            print("Starting browser for welcome page...")
+            subprocess.check_output(
+                [
+                    "adb",
+                    "shell",
+                    "am start -n org.mozilla.firefox/org.mozilla.gecko.BrowserApp"
+                ]
+            )
+            time.sleep(10)
+            close_package(pkgname)
+
+    except Exception as e:
+        if "ALREADY_EXISTS" in str(e):
+            print("Package already exists.")
+        else:
+            raise
+
+
+def uninstall_package(app=None):
+    if not app:
+        app = "org.mozilla.firefox"
+
+    pkgname = get_mozilla_pkgname()
+
+    subprocess.check_output(["adb", "uninstall", pkgname])
+
+
 def disable_charging(model=None):
     if not model:
         model = get_default_phone_model()
