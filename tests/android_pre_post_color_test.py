@@ -72,6 +72,8 @@ def main(args):
     print("Starting values:")
     for k, v in info.items():
         print("{}: {}".format(k, v))
+    start_cc = int(info["Charge counter"])
+    start_pc = int(info["level"])
 
     currtime = 0
     testtime_seconds = TESTTIME * 60
@@ -89,10 +91,15 @@ def main(args):
     print("Final values:")
     for k, v in info.items():
         print("{}: {}".format(k, v))
+    end_cc = int(info["Charge counter"])
+    end_pc = int(info["level"])
+
+    print("\nCharge counter used: {}".format(str(start_cc - end_cc)))
+    print("Percent used: {} \n".format(str(start_pc-end_pc)))
 
     set_screen_timeout(old_screentimeout)
     if args.browser_apk:
-        uninstall_package(app=args.browser)
+        uninstall_package()
 
     print("Enabling charging...")
     model.enable_charging()

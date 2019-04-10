@@ -73,11 +73,15 @@ def set_screen_timeout(timeout):
     )
 
 
-def get_mozilla_pkgname():
-    # There should only be one package
-    res = subprocess.check_output(
+def get_mozilla_packages():
+    return subprocess.check_output(
         ["adb", "shell", "pm", "list", "packages", "mozilla"]
     )
+
+
+def get_mozilla_pkgname():
+    # There should only be one package
+    res = get_mozilla_packages()
     pkgname = res.decode('ascii').split(":")[-1].strip('\n')
     return pkgname
 
@@ -88,6 +92,8 @@ def close_package(pkgname):
 
 def install_package(path_to_apk):
     try:
+        uninstall_existing()
+
         res = subprocess.check_output(["adb", "install", "-r", "-g", path_to_apk])
         print(res)
 
@@ -104,17 +110,6 @@ def install_package(path_to_apk):
             )
             time.sleep(10)
             close_package(pkgname)
-        if pkgname == 'org.mozilla.fenix':
-            print("Starting browser for welcome page...")
-            subprocess.check_output(
-                [
-                    "adb",
-                    "shell",
-                    "am start -n org.mozilla.fenix/org.mozilla.fenix.HomeActivity"
-                ]
-            )
-            time.sleep(10)
-            close_package(pkgname)  
 
     except Exception as e:
         if "ALREADY_EXISTS" in str(e):
@@ -125,11 +120,20 @@ def install_package(path_to_apk):
 
 def uninstall_package(app=None):
     if not app:
-        app = "org.mozilla.firefox"
+        app = get_mozilla_pkgname()
 
-    pkgname = get_mozilla_pkgname()
+    subprocess.check_output(["adb", "uninstall", app])
 
-    subprocess.check_output(["adb", "uninstall", pkgname])
+
+def uninstall_existing():
+    packages = get_mozilla_packages().decode('ascii')
+    pkglist = packages.split('\n')
+    for pkgname in pkglist:
+        if pkgname == '':
+            continue
+        pkgname = pkgname.split(':')[-1]
+        print("Uninstalling {}...".format(pkgname))
+        uninstall_package(app=pkgname)
 
 
 def disable_charging(model=None):
