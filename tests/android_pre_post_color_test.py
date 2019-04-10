@@ -108,11 +108,6 @@ if __name__ == "__main__":
         "--color", help="Color of background for the test.", required=True
     )
     parser.add_argument(
-        "--browser",
-        help="App name of the browser to test, i.e. org.mozilla.gecko.BrowserApp",
-        default=None
-    )
-    parser.add_argument(
         "--browser-apk",
         help="If the browser is not installed, provide the path to the APK to install.",
         default=None

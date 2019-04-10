@@ -104,6 +104,17 @@ def install_package(path_to_apk):
             )
             time.sleep(10)
             close_package(pkgname)
+        if pkgname == 'org.mozilla.fenix':
+            print("Starting browser for welcome page...")
+            subprocess.check_output(
+                [
+                    "adb",
+                    "shell",
+                    "am start -n org.mozilla.fenix/org.mozilla.fenix.HomeActivity"
+                ]
+            )
+            time.sleep(10)
+            close_package(pkgname)  
 
     except Exception as e:
         if "ALREADY_EXISTS" in str(e):

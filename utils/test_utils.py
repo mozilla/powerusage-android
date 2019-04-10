@@ -5,7 +5,7 @@ from utils.adb_utils import run_adb_command, get_mozilla_pkgname
 PACKAGE_ACTIVITY = {
     'org.mozilla.geckoview_example': 'GeckoViewActivity',
     'org.mozilla.reference.browser': 'BrowserTestActivity',
-    'org.mozilla.fenix.browser': 'BrowserTestActivity',
+    'org.mozilla.fenix': 'HomeActivity',
     'org.mozilla.firefox': 'BrowserApp'
 }
 
