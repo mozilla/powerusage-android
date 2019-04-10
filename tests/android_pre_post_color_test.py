@@ -6,6 +6,7 @@ from utils.data_saver import DataSaver
 from utils.adb_utils import (
     get_phone_model,
     get_battery_info,
+    get_battery_level,
     get_screen_timeout,
     set_screen_timeout,
     install_package,
@@ -49,7 +50,16 @@ def main(args):
     print("Old screen timeout: {}".format(old_screentimeout))
     set_screen_timeout(12000000)
 
+    # Ensure that it's sorted from low to high
+    args.test_percent_range.sort()
+
     for trial in range(args.trials):
+        currlevel = get_battery_level()
+        if currlevel > args.test_percent_range[1]:
+            discharge_battery(args.test_percent_range[1], model=model)
+        elif currlevel < args.test_percent_range[0]:
+            charge_battery(args.test_percent_range[1], model=model)
+
         print("\nOn trial {} \n".format(str(trial)))
 
         print("Installing app...")
@@ -153,6 +163,13 @@ if __name__ == "__main__":
         '--trials',
         help='Number of trials to run (default is 1).',
         default=1,
+        type=int
+    )
+    parser.add_argument(
+        '--test-percent-range',
+        help="Range of battery percent to test in (default is 90-100%).",
+        default=[90, 100],
+        nargs='+',
         type=int
     )
 
