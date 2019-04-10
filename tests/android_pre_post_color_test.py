@@ -17,13 +17,9 @@ from utils.test_utils import start_color_test
 from utils.utils import finish_same_line, write_same_line, custom_input
 
 RESOLUTION = 4  # time between data points in seconds
-TESTTIME = 1  # minutes
 
 
 def main(args):
-    OUTPUT = args.output
-    TESTTIME = args.testtime
-
     print("Running Android Pre/Post test.")
     print("Running %s background color test.\n" % args.color)
     print("Make sure you have no extra apps running in the background.")
@@ -35,7 +31,7 @@ def main(args):
     print("enabled automatically when we reach the end of the test.")
 
     custom_input("Press enter when ready...", args.ignore_input)
-    ds = DataSaver(OUTPUT)
+    ds = DataSaver(args.output)
     ds.start()
 
     print("Getting Phone Model...")
@@ -53,55 +49,70 @@ def main(args):
     print("Old screen timeout: {}".format(old_screentimeout))
     set_screen_timeout(12000000)
 
-    print("Installing app...")
-    if args.browser_apk:
-        install_package(args.browser_apk)
+    for trial in range(args.trials):
+        print("\nOn trial {} \n".format(str(trial)))
 
-    print("Attempting to start %s test..." % args.color)
-    start_color_test(args.color)
+        print("Installing app...")
+        if args.browser_apk:
+            install_package(args.browser_apk)
 
-    custom_input(
-        "When the test is ready, start the recording by pressing enter...",
-        args.ignore_input
-    )
+        print("Attempting to start %s test..." % args.color)
+        start_color_test(args.color)
 
-    print("Waiting for a percentage drop...")
-    wait_for_drop()
-    print("Drop detected, starting test")
-    print("Start time: {}".format(datetime.datetime.utcnow()))
+        custom_input(
+            "When the test is ready, start the measurements by pressing enter...",
+            args.ignore_input
+        )
 
-    info = parse_battery_info(get_battery_info())
-    info["timestamp"] = time.time()
-    starttime = info["timestamp"]
-    ds.add(info, "batterydata")
+        print("Waiting for a charge counter drop...")
+        wait_for_drop()
+        print("Drop detected, starting test")
+        print("Start time: {}".format(datetime.datetime.utcnow()))
 
-    print("Starting values:")
-    for k, v in info.items():
-        print("{}: {}".format(k, v))
-    start_cc = int(info["Charge counter"])
-    start_pc = int(info["level"])
+        info = parse_battery_info(get_battery_info())
+        info["timestamp"] = time.time()
+        starttime = info["timestamp"]
+        ds.add(info, "batterydata")
 
-    currtime = 0
-    testtime_seconds = TESTTIME * 60
-    while currtime - starttime < testtime_seconds:
-        time.sleep(RESOLUTION)
-        currtime = time.time()
-        write_same_line("Elapsed time (seconds): {}".format(str(currtime - starttime)))
-    finish_same_line()
+        print("Starting values:")
+        for k, v in info.items():
+            print("{}: {}".format(k, v))
+        start_cc = int(info["Charge counter"])
+        start_pc = int(info["level"])
 
-    info = parse_battery_info(get_battery_info())
-    info["timestamp"] = time.time()
-    ds.add(info, "batterydata")
+        currtime = 0
+        testtime_seconds = args.testtime * 60
+        while currtime - starttime < testtime_seconds:
+            time.sleep(RESOLUTION)
+            currtime = time.time()
+            write_same_line(
+                "Elapsed time (seconds): {}".format(str(currtime - starttime))
+            )
+        finish_same_line()
 
-    print("End time: {}".format(datetime.datetime.utcnow()))
-    print("Final values:")
-    for k, v in info.items():
-        print("{}: {}".format(k, v))
-    end_cc = int(info["Charge counter"])
-    end_pc = int(info["level"])
+        info = parse_battery_info(get_battery_info())
+        info["timestamp"] = time.time()
+        ds.add(info, "batterydata")
 
-    print("\nCharge counter used: {}".format(str(start_cc - end_cc)))
-    print("Percent used: {} \n".format(str(start_pc-end_pc)))
+        print("End time: {}".format(datetime.datetime.utcnow()))
+        print("Final values:")
+        for k, v in info.items():
+            print("{}: {}".format(k, v))
+        end_cc = int(info["Charge counter"])
+        end_pc = int(info["level"])
+
+        results = {
+            'Charge counter used': start_cc - end_cc,
+            'Percent used': start_pc-end_pc
+        }
+        ds.add(results, "summary{}_".format(str(trial)))
+
+        print("\nCharge counter used: {}".format(
+            str(results['Charge counter used'])
+        ))
+        print("Percent used: {} \n".format(
+            str(results['Percent used'])
+        ))
 
     set_screen_timeout(old_screentimeout)
     if args.browser_apk:
@@ -137,6 +148,12 @@ if __name__ == "__main__":
         help="Time to run test for (in minutes, default is 1).",
         default=1,
         type=float
+    )
+    parser.add_argument(
+        '--trials',
+        help='Number of trials to run (default is 1).',
+        default=1,
+        type=int
     )
 
     args = parser.parse_args()
