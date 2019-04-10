@@ -52,6 +52,90 @@ def get_default_phone_model():
     return PixelPhone("Pixel_2")
 
 
+def get_screen_timeout():
+    res = subprocess.check_output(
+        ["adb", "shell", "settings", "get", "system", "screen_off_timeout"]
+    )
+    return res.decode('ascii').strip('\n')
+
+
+def set_screen_timeout(timeout):
+    subprocess.check_output(
+        [
+            "adb",
+            "shell",
+            "settings",
+            "put",
+            "system",
+            "screen_off_timeout",
+            str(timeout)
+        ]
+    )
+
+
+def get_mozilla_packages():
+    return subprocess.check_output(
+        ["adb", "shell", "pm", "list", "packages", "mozilla"]
+    )
+
+
+def get_mozilla_pkgname():
+    # There should only be one package
+    res = get_mozilla_packages()
+    pkgname = res.decode('ascii').split(":")[-1].strip('\n')
+    return pkgname
+
+
+def close_package(pkgname):
+    subprocess.check_output(["adb", "shell", "am", "force-stop", pkgname])
+
+
+def install_package(path_to_apk):
+    try:
+        uninstall_existing()
+
+        res = subprocess.check_output(["adb", "install", "-r", "-g", path_to_apk])
+        print(res)
+
+        pkgname = get_mozilla_pkgname()
+        if pkgname == 'org.mozilla.firefox':
+            # Start it once and then close it
+            print("Starting browser for welcome page...")
+            subprocess.check_output(
+                [
+                    "adb",
+                    "shell",
+                    "am start -n org.mozilla.firefox/org.mozilla.gecko.BrowserApp"
+                ]
+            )
+            time.sleep(10)
+            close_package(pkgname)
+
+    except Exception as e:
+        if "ALREADY_EXISTS" in str(e):
+            print("Package already exists.")
+        else:
+            raise
+
+
+def uninstall_package(app=None):
+    if not app:
+        app = get_mozilla_pkgname()
+
+    subprocess.check_output(["adb", "uninstall", app])
+
+
+def uninstall_existing():
+    packages = get_mozilla_packages().decode('ascii')
+    pkglist = packages.split('\n')
+    for pkgname in pkglist:
+        if pkgname == '':
+            continue
+        pkgname = pkgname.split(':')[-1]
+        print("Uninstalling {}...".format(pkgname))
+        uninstall_package(app=pkgname)
+
+
 def disable_charging(model=None):
     if not model:
         model = get_default_phone_model()

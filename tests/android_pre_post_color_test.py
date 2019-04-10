@@ -6,6 +6,10 @@ from utils.data_saver import DataSaver
 from utils.adb_utils import (
     get_phone_model,
     get_battery_info,
+    get_screen_timeout,
+    set_screen_timeout,
+    install_package,
+    uninstall_package,
     parse_battery_info,
     wait_for_drop,
 )
@@ -42,6 +46,14 @@ def main(args):
     model.disable_charging()
     input("Is it disabled?")
 
+    old_screentimeout = get_screen_timeout()
+    print("Old screen timeout: {}".format(old_screentimeout))
+    set_screen_timeout(12000000)
+
+    print("Installing app...")
+    if args.browser_apk:
+        install_package(args.browser_apk)
+
     print("Attempting to start %s test..." % args.color)
     start_color_test(args.color)
 
@@ -60,6 +72,8 @@ def main(args):
     print("Starting values:")
     for k, v in info.items():
         print("{}: {}".format(k, v))
+    start_cc = int(info["Charge counter"])
+    start_pc = int(info["level"])
 
     currtime = 0
     testtime_seconds = TESTTIME * 60
@@ -77,6 +91,15 @@ def main(args):
     print("Final values:")
     for k, v in info.items():
         print("{}: {}".format(k, v))
+    end_cc = int(info["Charge counter"])
+    end_pc = int(info["level"])
+
+    print("\nCharge counter used: {}".format(str(start_cc - end_cc)))
+    print("Percent used: {} \n".format(str(start_pc-end_pc)))
+
+    set_screen_timeout(old_screentimeout)
+    if args.browser_apk:
+        uninstall_package()
 
     print("Enabling charging...")
     model.enable_charging()
@@ -90,6 +113,11 @@ if __name__ == "__main__":
     parser = AndroidParser().get_parser()
     parser.add_argument(
         "--color", help="Color of background for the test.", required=True
+    )
+    parser.add_argument(
+        "--browser-apk",
+        help="If the browser is not installed, provide the path to the APK to install.",
+        default=None
     )
 
     args = parser.parse_args()
