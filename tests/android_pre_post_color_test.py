@@ -4,6 +4,8 @@ import time
 from utils.android_parser import AndroidParser
 from utils.data_saver import DataSaver
 from utils.adb_utils import (
+    charge_battery,
+    discharge_battery,
     get_phone_model,
     get_battery_info,
     get_battery_level,
