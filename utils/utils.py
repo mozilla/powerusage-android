@@ -31,3 +31,8 @@ def get_paths_from_dir(source_dir, file_matchers=None):
             if pattern_find(file, file_matchers):
                 paths.append(os.path.join(root, file))
     return paths
+
+
+def custom_input(msg, ignore_input):
+    if not ignore_input:
+        input(msg)

@@ -14,7 +14,7 @@ from utils.adb_utils import (
     wait_for_drop,
 )
 from utils.test_utils import start_color_test
-from utils.utils import finish_same_line, write_same_line
+from utils.utils import finish_same_line, write_same_line, custom_input
 
 RESOLUTION = 4  # time between data points in seconds
 TESTTIME = 1  # minutes
@@ -22,6 +22,7 @@ TESTTIME = 1  # minutes
 
 def main(args):
     OUTPUT = args.output
+    TESTTIME = args.testtime
 
     print("Running Android Pre/Post test.")
     print("Running %s background color test.\n" % args.color)
@@ -33,18 +34,20 @@ def main(args):
     print("Charging is disabled before the test starts. It is")
     print("enabled automatically when we reach the end of the test.")
 
-    input("Press enter when ready...")
+    custom_input("Press enter when ready...", args.ignore_input)
     ds = DataSaver(OUTPUT)
     ds.start()
 
     print("Getting Phone Model...")
     model = get_phone_model()
     print("Is the model %s correct?" % model.model)
-    input("Press Enter to confirm...")
+
+    custom_input("Press Enter to confirm...", args.ignore_input)
 
     print("Disabling charging...")
     model.disable_charging()
-    input("Is it disabled?")
+
+    custom_input("Is it disabled?", args.ignore_input)
 
     old_screentimeout = get_screen_timeout()
     print("Old screen timeout: {}".format(old_screentimeout))
@@ -57,7 +60,10 @@ def main(args):
     print("Attempting to start %s test..." % args.color)
     start_color_test(args.color)
 
-    input("When the test is ready, start the recording by pressing enter...")
+    custom_input(
+        "When the test is ready, start the recording by pressing enter...",
+        args.ignore_input
+    )
 
     print("Waiting for a percentage drop...")
     wait_for_drop()
@@ -78,7 +84,7 @@ def main(args):
     currtime = 0
     testtime_seconds = TESTTIME * 60
     while currtime - starttime < testtime_seconds:
-        time.sleep(5)
+        time.sleep(RESOLUTION)
         currtime = time.time()
         write_same_line("Elapsed time (seconds): {}".format(str(currtime - starttime)))
     finish_same_line()
@@ -116,8 +122,21 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--browser-apk",
-        help="If the browser is not installed, provide the path to the APK to install.",
+        help="If the browser is not installed, provide the path to the APK to install."
+             " If none is provided, we assume a single package already exists.",
         default=None
+    )
+    parser.add_argument(
+        "--ignore-input",
+        help="If set, skips all requests for input (default is false).",
+        action="store_true",
+        default=False
+    )
+    parser.add_argument(
+        "--testtime",
+        help="Time to run test for (in minutes, default is 1).",
+        default=1,
+        type=float
     )
 
     args = parser.parse_args()
