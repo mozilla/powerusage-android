@@ -1,12 +1,11 @@
 import datetime
 import time
 
-from android_parser import AndroidParser
-from data_saver import DataSaver
-from adb_utils import get_phone_model, get_battery_info, parse_battery_info
-from utils import finish_same_line, write_same_line
+from utils.android_parser import AndroidParser
+from utils.data_saver import DataSaver
+from utils.adb_utils import get_phone_model, get_battery_info, parse_battery_info
+from utils.utils import finish_same_line, write_same_line
 
-OUTPUT = "/home/sparky/Documents/mozwork/"
 RESOLUTION = 4  # time between data points in seconds
 SAVERINTERVAL = 5  # seconds
 FINALLEVEL = 5

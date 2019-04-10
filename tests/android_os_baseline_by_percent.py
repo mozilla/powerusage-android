@@ -2,9 +2,9 @@ import os
 import datetime
 import time
 
-from android_parser import AndroidParser
-from data_saver import DataSaver
-from adb_utils import (
+from utils.android_parser import AndroidParser
+from utils.data_saver import DataSaver
+from utils.adb_utils import (
     charge_battery,
     discharge_battery,
     get_phone_model,
@@ -13,9 +13,8 @@ from adb_utils import (
     parse_battery_info,
     wait_for_drop,
 )
-from utils import finish_same_line, write_same_line
+from utils.utils import finish_same_line, write_same_line
 
-OUTPUT = "/home/sparky/Documents/mozwork/"
 RESOLUTION = 4  # time between data points in seconds
 
 # start percent is exclusive, end percent is inclusive

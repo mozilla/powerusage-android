@@ -1,16 +1,15 @@
 import datetime
 import time
 
-from android_parser import AndroidParser
-from data_saver import DataSaver
-from adb_utils import (
+from utils.android_parser import AndroidParser
+from utils.data_saver import DataSaver
+from utils.adb_utils import (
     get_phone_model,
     get_battery_info,
     parse_battery_info,
     wait_for_drop,
 )
-from test_utils import start_color_test
-from utils import finish_same_line, write_same_line
+from utils.utils import finish_same_line, write_same_line
 
 RESOLUTION = 4  # time between data points in seconds
 TESTTIME = 1  # minutes
@@ -20,7 +19,6 @@ def main(args):
     OUTPUT = args.output
 
     print("Running Android Pre/Post test.")
-    print("Running %s background color test.\n" % args.color)
     print("Make sure you have no extra apps running in the background.")
     print(
         "Make sure that there is a wakelock app running"
@@ -29,7 +27,7 @@ def main(args):
     print("Charging is disabled before the test starts. It is")
     print("enabled automatically when we reach the end of the test.")
 
-    input("Press enter when ready...")
+    _ = input("Press enter when ready...")
     ds = DataSaver(OUTPUT)
     ds.start()
 
@@ -42,13 +40,10 @@ def main(args):
     model.disable_charging()
     input("Is it disabled?")
 
-    print("Attempting to start %s test..." % args.color)
-    start_color_test(args.color)
-
     input("When the test is ready, start the recording by pressing enter...")
 
     print("Waiting for a percentage drop...")
-    wait_for_drop()
+    # wait_for_drop()
     print("Drop detected, starting test")
     print("Start time: {}".format(datetime.datetime.utcnow()))
 
@@ -87,10 +82,5 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = AndroidParser().get_parser()
-    parser.add_argument(
-        "--color", help="Color of background for the test.", required=True
-    )
-
-    args = parser.parse_args()
+    args = AndroidParser().parse_args()
     main(args)

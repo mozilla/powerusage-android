@@ -3,7 +3,7 @@ import json
 import numpy as np
 from matplotlib import pyplot as plt
 
-from utils import get_paths_from_dir
+from utils.utils import get_paths_from_dir
 
 RESULTSDIR = "/home/sparky/Documents/mozwork/osbaseline1554005928"
 MAXPC = 100

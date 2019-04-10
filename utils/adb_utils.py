@@ -1,7 +1,7 @@
 import subprocess
 import time
 
-from utils import write_same_line, finish_same_line
+from utils.utils import write_same_line, finish_same_line
 
 
 class PhoneModel:

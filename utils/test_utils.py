@@ -1,6 +1,6 @@
 import base64
 
-from adb_utils import run_adb_command
+from utils.adb_utils import run_adb_command
 
 
 def start_color_test(color):
