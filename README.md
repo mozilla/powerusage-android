@@ -2,7 +2,6 @@
 Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 
 
-
 [![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/powerusage-android/blob/master/LICENSE.txt)
 [![Build Status](https://travis-ci.org/mozilla/powerusage-android.svg?branch=master)](https://travis-ci.org/mozilla/powerusage-android)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
@@ -13,7 +12,24 @@ Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 3. You have **git** installed and configured, also available in your system ```$PATH```
 4. **adb** is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
 5. ```git clone``` your fork of https://github.com/mozilla/powerusage-android (read-only would be: ```git clone https://github.com/mozilla/powerusage-android```
-6. ```python3 setup.py develop```
+6. ```python3 setup.py develop```:
+```
+$ python3 setup.py develop
+running develop
+running egg_info
+writing powerusage_android.egg-info/PKG-INFO
+writing dependency_links to powerusage_android.egg-info/dependency_links.txt
+writing top-level names to powerusage_android.egg-info/top_level.txt
+reading manifest file 'powerusage_android.egg-info/SOURCES.txt'
+writing manifest file 'powerusage_android.egg-info/SOURCES.txt'
+running build_ext
+Creating /usr/local/lib/python3.7/site-packages/powerusage-android.egg-link (link to .)
+powerusage-android 0.1.0 is already the active version in easy-install.pth
+
+Installed /Users/stephendonner/powerusage-android
+Processing dependencies for powerusage-android==0.1.0
+Finished processing dependencies for powerusage-android==0.1.0
+```
 
 **Running a Test:**
 1. ```$ cd``` (into) ```/scripts``` or just call whichever test you want, like so:
