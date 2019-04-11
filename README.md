@@ -8,9 +8,9 @@ Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 
 **Preliminary Setup:**
 1. Your **Moto G5** and/or **Pixel 2** phone(s) should be *rooted* and *OEM/carrier-unlocked* (we have -- scattered? -- docs, which I'll bring back or link to, here)
-2. **Python 3** is installed and available in your system ```$PATH```
-3. You have **git** installed and configured, also available in your system ```$PATH```
-4. **adb** is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
+2. [**Python 3.7.3**](https://www.python.org/downloads/release/python-373/) is installed and available in your system ```$PATH```
+3. You have [**git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed and configured, also available in your system ```$PATH```
+4. [**adb**](https://www.xda-developers.com/quickly-install-adb/) is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
 5. ```git clone``` your fork of https://github.com/mozilla/powerusage-android (read-only would be: ```git clone https://github.com/mozilla/powerusage-android```)
 6. ```python3 setup.py develop```:
 ```
