@@ -11,7 +11,7 @@ Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 2. **Python 3** is installed and available in your system ```$PATH```
 3. You have **git** installed and configured, also available in your system ```$PATH```
 4. **adb** is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
-5. ```git clone``` your fork of https://github.com/mozilla/powerusage-android (read-only would be: ```git clone https://github.com/mozilla/powerusage-android```
+5. ```git clone``` your fork of https://github.com/mozilla/powerusage-android (read-only would be: ```git clone https://github.com/mozilla/powerusage-android```)
 6. ```python3 setup.py develop```:
 ```
 $ python3 setup.py develop
