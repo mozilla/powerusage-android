@@ -12,9 +12,12 @@ Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 3. You have [**git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed and configured, also available in your system ```$PATH```
 4. [**adb**](https://www.xda-developers.com/quickly-install-adb/) is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
 5. ```git clone``` your fork of https://github.com/mozilla/powerusage-android (read-only would be: ```git clone https://github.com/mozilla/powerusage-android```)
-6. ```python3 setup.py develop```:
+6. ```cd powerusage-android```
+7. ```python3 setup.py develop```:
 ```
 $ python3 setup.py develop
+```
+```
 running develop
 running egg_info
 writing powerusage_android.egg-info/PKG-INFO
