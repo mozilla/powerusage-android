@@ -31,7 +31,7 @@ Installing app... Attempting to start white test... Starting: Intent { act=andro
 cmp=org.mozilla.reference.browser/.IntentReceiverActivity (has extras) }
 ```
 
-followed by the magic and substance of the test/measurements, which are the (many) datapoints, of which we are currently focused on Charge-Counter values, as well as deltas, variance across scenarios, etc:
+followed by the magic and substance of the test/measurements, which are the (many) datapoints, of which we are currently focused on Charge-Counter values (**Charge counter: 267234**), as well as deltas, variance across scenarios, etc:
 
 ```
 Waiting for a charge counter drop...
@@ -46,7 +46,7 @@ Wireless powered: false
 MOD powered: false
 Max charging current: 0
 Max charging voltage: 0
-Charge counter: 2627234
+**Charge counter: 2627234**
 status: 3
 health: 2
 present: true
@@ -69,7 +69,7 @@ Wireless powered: false
 MOD powered: false
 Max charging current: 0
 Max charging voltage: 0
-Charge counter: 2549718
+**Charge counter: 2549718**
 status: 3
 health: 2
 present: true
@@ -84,6 +84,6 @@ mod flag: 0
 mod type: 0
 timestamp: 1554938794.918973
 
-Charge counter used: 77516
-Percent used: 1 
+**Charge counter used: 77516**
+**Percent used: 1**
 ```
