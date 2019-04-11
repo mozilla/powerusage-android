@@ -35,9 +35,10 @@ Finished processing dependencies for powerusage-android==0.1.0
 ```
 
 **Running a Test:**
-1. ```$ cd``` (into) ```/scripts``` or just call whichever test you want, like so:
-  * ```$ ./scripts/whitebg-test.sh``` 
-2. You should now see output similar to https://gist.github.com/stephendonner/9c611a3dfc6d26c4f203bd06b38f688b, the (reverse) gist of which -- pun intended and taken -- is:
+1. ```$ cd scripts``` or just call whichever test you want, from the top-level (root) dir, like so:
+   ```$ ./scripts/whitebg-test.sh --output [name of dir]```
+    Ensure that your custom dir exists prior to the above test run; ```results``` or similar, will do, for our purposes.
+2. You should now see output similar to https://gist.github.com/stephendonner/9c611a3dfc6d26c4f203bd06b38f688b:
 
 ```
 Running Android Pre/Post test. Running white background color test.
