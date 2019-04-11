@@ -7,14 +7,16 @@ Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 [![Build Status](https://travis-ci.org/mozilla/powerusage-android.svg?branch=master)](https://travis-ci.org/mozilla/powerusage-android)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Preliminary Setup:
-1. Your Moto G5 and/or Pixel 2 phone(s) should be rooted and OEM/carrier-unlocked
-2. Python 3 is installed and available in your system ```$PATH```
-3. git clone your fork of https://github.com/mozilla/powerusage-android
-4. ```python3 setup.py develop```
+**Preliminary Setup:**
+1. Your **Moto G5** and/or **Pixel 2** phone(s) should be *rooted* and *OEM/carrier-unlocked* (we have -- scattered? -- docs, which I'll bring back or link to, here)
+2. **Python 3** is installed and available in your system ```$PATH```
+3. You have **git** installed and configured, also available in your system ```$PATH```
+4. **adb** is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
+5. ```git clone``` your fork of https://github.com/mozilla/powerusage-android (read-only would be: ```git clone https://github.com/mozilla/powerusage-android```
+6. ```python3 setup.py develop```
 
-Running a Test:
-1. cd into /scripts or just call whichever test you want, like so:
+**Running a Test:**
+1. ```$ cd``` (into) ```/scripts``` or just call whichever test you want, like so:
   * ```$ ./scripts/whitebg-test.sh``` 
 2. You should now see output similar to https://gist.github.com/stephendonner/9c611a3dfc6d26c4f203bd06b38f688b, the (reverse) gist of which -- pun intended and taken -- is:
 
@@ -25,7 +27,8 @@ Make sure you have no extra apps running in the background. Make sure that there
 
 On trial 0
 
-Installing app... Attempting to start white test... Starting: Intent { act=android.intent.action.VIEW dat=data:text/html;base64,PGJvZHkgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6d2hpdGUiPjwvYm9keT4= cmp=org.mozilla.reference.browser/.IntentReceiverActivity (has extras) }
+Installing app... Attempting to start white test... Starting: Intent { act=android.intent.action.VIEW dat=data:text/html;base64,PGJvZHkgc3R5bGU9ImJhY2tncm91bmQtY29sb3I6d2hpdGUiPjwvYm9keT4= (forced wrap here for illustration)
+cmp=org.mozilla.reference.browser/.IntentReceiverActivity (has extras) }
 ```
 
 followed by the magic and substance of the test/measurements, which are the (many) datapoints, of which we are currently focused on Charge-Counter values, as well as deltas, variance across scenarios, etc:
