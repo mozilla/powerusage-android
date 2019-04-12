@@ -1,13 +1,13 @@
 # powerusage-android
 
-Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
+Mozilla-driven battery and power-usage measurement tools for Android (7,8)
 
 [![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/powerusage-android/blob/master/LICENSE.txt)
 [![Build Status](https://travis-ci.org/mozilla/powerusage-android.svg?branch=master)](https://travis-ci.org/mozilla/powerusage-android)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 ## Preliminary Setup:
-1. Your **Moto G5** and/or **Pixel 2** phone(s) should be *rooted* and *OEM/carrier-unlocked* (some [unlocking docs](https://docs.google.com/document/d/1XQLtvVM2U3h1jzzzpcGEDVOp4jMECsgLYJkhCfAwAnc/edit), which I'll bring back or link to, here)
+1. Your **Moto G5** [unlock](https://accounts.motorola.com/ssoauth/login?TARGET=https://motorola-global-portal.custhelp.com/cc/cas/sso/redirect/standalone%2Fbootloader%2Funlock-your-device-b)[specs](https://www.gsmarena.com/motorola_moto_g5-8454.php) and/or **Pixel 2** [specs](https://www.gsmarena.com/google_pixel_2-8733.php) phones should be *rooted* and *OEM/carrier-unlocked* (further [unlocking docs](https://docs.google.com/document/d/1XQLtvVM2U3h1jzzzpcGEDVOp4jMECsgLYJkhCfAwAnc/edit)
 2. [**Python 3.7.3**](https://www.python.org/downloads/release/python-373/) is installed and available in your system ```$PATH```
 3. You have [**git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed and configured, also available in your system ```$PATH```
 4. [**adb**](https://www.xda-developers.com/quickly-install-adb/) is installed and available in your system ```$PATH``` (if ```adb devices``` doesn't spit out errors, you should be good to go)
@@ -32,9 +32,8 @@ Installed /Users/stephendonner/powerusage-android
 Processing dependencies for powerusage-android==0.1.0
 Finished processing dependencies for powerusage-android==0.1.0
 ```
-
-### Test-Environment (Device) Cleanup
-### Uninstall Browser Apps ####
+## Test-Environment (Device) Cleanup
+## Uninstall Browser Apps ##
 **Manually:** tap and hold until you can drag to the Uninstall option at the top right) all of your current Firefox-based browser apps (Fennec, GeckoView Example [GVE], Fenix, and Reference Browser [RefBrow]).
 **Automation:?**
 
