@@ -43,14 +43,30 @@ I will prettify this later, but here are my (Stephen) build sources, for my Moto
 * Fenix: https://index.taskcluster.net/v1/task/project.mobile.fenix.signed-nightly.nightly.2019.4.9.latest/artifacts/public/target.arm.apk
 * GVE: https://taskcluster-artifacts.net/dzV5pl0SRz6IvbIDR1TEIA/0/public/build/geckoview_example.apk
 
-
-
+(Greg can add his here too if so desired)
 
 **Running a Test:**
-1. Frm the top-level (root) dir, run (e.g. substituting values, where appropriate):
+1. For each color's power test, you must ```mkdir [unique name]``` with a convention of your choosing; ```black-bg```, ```white-bg```, etc.
+2. From the top-level (root) dir, run (e.g. substituting values, where appropriate):
    ```$ ./scripts/blackbg-test.sh --output black-bg ```
     Ensure that your custom dir exists prior to the above test run; ```results``` or similar, will do, for our purposes.
-2. You should now see output similar to https://gist.github.com/stephendonner/9c611a3dfc6d26c4f203bd06b38f688b:
+3. You should now see output similar to https://gist.github.com/stephendonner/9c611a3dfc6d26c4f203bd06b38f688b:
+
+If you like cool project codenames as much as I do, you might find my (the!) Eye of Sauron useful for running the gamut of browsers and colors.  Here's a preview, to try to sell you on it:
+
+```
+#!/bin/bash 
+
+scripts/blackbg-test.sh black-bg fennec-64.0.2.en-US.android-arm.apk refbrow-target.arm.apk target.arm.apk geckoview_example.apk
+scripts/whitebg-test.sh white-bg fennec-64.0.2.en-US.android-arm.apk refbrow-target.arm.apk target.arm.apk geckoview_example.apk
+scripts/redbg-test.sh red-bg fennec-64.0.2.en-US.android-arm.apk refbrow-target.arm.apk target.arm.apk geckoview_example.apk
+scripts/greenbg-test.sh green-bg fennec-64.0.2.en-US.android-arm.apk refbrow-target.arm.apk target.arm.apk geckoview_example.apk
+scripts/bluebg-test.sh blue-bg fennec-64.0.2.en-US.android-arm.apk refbrow-target.arm.apk target.arm.apk geckoview_example.apk
+
+```
+
+That's actually it for now, but you can see the patterns, and expand out a bit.  We'll soon be moving to Raptor proper, to hook into All the Things™ we need for capabilities of all types.
+
 
 ```
 Running Android Pre/Post test. Running white background color test.
