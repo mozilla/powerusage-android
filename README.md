@@ -1,6 +1,9 @@
 # powerusage-android
 
-Mozilla-driven battery and power-usage measurement tools for Android (7,8)
+Mozilla-driven battery and power-usage measurement tools for Android (7,8).
+
+Test plan: https://docs.google.com/document/d/1r1J_BZnE5l8nXoLVXVR1hUlEkzaPX2gx_ueZABkzi6g/edit
+Bug: [1511350](https://bugzilla.mozilla.org/show_bug.cgi?id=1511350)
 
 [![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/powerusage-android/blob/master/LICENSE.txt)
 [![Build Status](https://travis-ci.org/mozilla/powerusage-android.svg?branch=master)](https://travis-ci.org/mozilla/powerusage-android)
@@ -67,7 +70,7 @@ scripts/bluebg-test.sh blue-bg fennec-64.0.2.en-US.android-arm.apk refbrow-targe
 
 ```
 
-Note: at the time of this doc update, greenbg-test.sh and bluebg-test.sh are not in-tree, and are used for illustration only; following the patters, we can expand out a bit.
+Note: at the time of this doc update, ```greenbg-test.sh``` and ```bluebg-test.sh``` are not in-tree, and are used to test locally and here for illustrative purposes.
 
 We'll soon be moving to Raptor proper, to hook into All the Things™ we need for capabilities of all types.
 
