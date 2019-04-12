@@ -4,12 +4,10 @@
 
 🔥🦊⏱
 
-## (The) More stuff You should Know 🌈⭐
+======
 
-* Test Plan: [Android Power/Battery-Use](https://docs.google.com/document/d/1r1J_BZnE5l8nXoLVXVR1hUlEkzaPX2gx_ueZABkzi6g/edit) (Google Doc, WIP)
-* Main bug: [bug 1511350](https://bugzilla.mozilla.org/show_bug.cgi?id=1511350) - Test impact of dark mode on power usage
-* Builds atop Bob Clary's work with Rob Wood on [power.py](https://searchfox.org/mozilla-central/rev/b3ac60ff061c7891e77c26b73b61804aa1a8f682/testing/raptor/raptor/power.py)
-* Raptor power-testing code refactoring needed to quickly abstract and extend supported testing capabilities ([bug 1534778](https://bugzilla.mozilla.org/show_bug.cgi?id=1534778) 'quick' first step)
+* **Test Plan:** [Android Power/Battery-Use](https://docs.google.com/document/d/1r1J_BZnE5l8nXoLVXVR1hUlEkzaPX2gx_ueZABkzi6g/edit) (Google Doc, WIP)
+* **Main bug:** [bug 1511350](https://bugzilla.mozilla.org/show_bug.cgi?id=1511350) - Test impact of dark mode on power usage
 
 [![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/powerusage-android/blob/master/LICENSE.txt)
 [![Build Status](https://travis-ci.org/mozilla/powerusage-android.svg?branch=master)](https://travis-ci.org/mozilla/powerusage-android)
