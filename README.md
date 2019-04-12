@@ -42,9 +42,8 @@ Processing dependencies for powerusage-android==0.1.0
 Finished processing dependencies for powerusage-android==0.1.0
 ```
 ## Test-Environment (Device) Cleanup
-## Uninstall Browser Apps ##
+## Uninstall Browser Apps
 **Manually:** tap and hold until you can drag to the Uninstall option at the top right) all of your current Firefox-based browser apps (Fennec, GeckoView Example [GVE], Fenix, and Reference Browser [RefBrow]).
-**Automation:?**
 
 ## Install Browser APKs:
 I will prettify this later, but here are my (Stephen) build sources, for my Moto G5, running Android 7.x:
