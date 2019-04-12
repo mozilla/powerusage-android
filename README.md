@@ -1,12 +1,12 @@
 # powerusage-android
-Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 
+Mozilla-driven battery and power-usage measurement tools for Android (7,8,9)
 
 [![license](https://img.shields.io/badge/license-MPL%202.0-blue.svg)](https://github.com/mozilla/powerusage-android/blob/master/LICENSE.txt)
 [![Build Status](https://travis-ci.org/mozilla/powerusage-android.svg?branch=master)](https://travis-ci.org/mozilla/powerusage-android)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-**Preliminary Setup:**
+## Preliminary Setup:
 1. Your **Moto G5** and/or **Pixel 2** phone(s) should be *rooted* and *OEM/carrier-unlocked* (some [unlocking docs](https://docs.google.com/document/d/1XQLtvVM2U3h1jzzzpcGEDVOp4jMECsgLYJkhCfAwAnc/edit), which I'll bring back or link to, here)
 2. [**Python 3.7.3**](https://www.python.org/downloads/release/python-373/) is installed and available in your system ```$PATH```
 3. You have [**git**](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed and configured, also available in your system ```$PATH```
@@ -33,10 +33,12 @@ Processing dependencies for powerusage-android==0.1.0
 Finished processing dependencies for powerusage-android==0.1.0
 ```
 
-**Test-Environment (Device) Cleanup**
-* First, uninstall (by hand; tap and hold until you can drag to the Uninstall option at the top right) all of your current Firefox-based browser apps (Fennec, GeckoView Example [GVE], Fenix, and Reference Browser [RefBrow]).
+### Test-Environment (Device) Cleanup
+### Uninstall Browser Apps ####
+**Manually:** tap and hold until you can drag to the Uninstall option at the top right) all of your current Firefox-based browser apps (Fennec, GeckoView Example [GVE], Fenix, and Reference Browser [RefBrow]).
+**Automation:?**
 
-**Grab and Install Browser APKs:**
+## Install Browser APKs:
 I will prettify this later, but here are my (Stephen) build sources, for my Moto G5, running Android 7.x:
 * Fennec (Firefox 64.0.2): https://archive.mozilla.org/pub/mobile/releases/64.0.2/android-api-16/en-US/fennec-64.0.2.en-US.android-arm.apk
 * RefBrow: https://index.taskcluster.net/v1/task/project.mobile.reference-browser.signed-nightly.nightly.2019.4.9.latest/artifacts/public/target.arm.apk
@@ -45,14 +47,15 @@ I will prettify this later, but here are my (Stephen) build sources, for my Moto
 
 (Greg can add his here too if so desired)
 
-**Running a Test:**
+## Running a Test:
 1. For each color's power test, you must ```mkdir [unique name]``` with a convention of your choosing; ```black-bg```, ```white-bg```, etc.
 2. From the top-level (root) dir, run (e.g. substituting values, where appropriate):
    ```$ ./scripts/blackbg-test.sh --output black-bg ```
     Ensure that your custom dir exists prior to the above test run; ```results``` or similar, will do, for our purposes.
 3. You should now see output similar to https://gist.github.com/stephendonner/9c611a3dfc6d26c4f203bd06b38f688b:
 
-If you like cool project codenames as much as I do, you might find my (the!) Eye of Sauron useful for running the gamut of browsers and colors.  Here's a preview, to try to sell you on it:
+
+Here's a sample "batch" test of colors, called eye_of_sauron.py:
 
 ```
 #!/bin/bash 
@@ -65,7 +68,9 @@ scripts/bluebg-test.sh blue-bg fennec-64.0.2.en-US.android-arm.apk refbrow-targe
 
 ```
 
-That's actually it for now, but you can see the patterns, and expand out a bit.  We'll soon be moving to Raptor proper, to hook into All the Things™ we need for capabilities of all types.
+Note: at the time of this doc update, greenbg-test.sh and bluebg-test.sh are not in-tree, and are used for illustration only; following the patters, we can expand out a bit.
+
+We'll soon be moving to Raptor proper, to hook into All the Things™ we need for capabilities of all types.
 
 
 ```
