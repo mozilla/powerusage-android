@@ -23,7 +23,7 @@ RESOLUTION = 4  # time between data points in seconds
 
 
 def main(args):
-    print("Running Android Pre/Post test.")
+    print("Running Android Pre/Post Baseline Browser test.")
     print("Make sure you have no extra apps running in the background.")
     print(
         "Make sure that there is a wakelock app running"
@@ -32,7 +32,7 @@ def main(args):
     print("Charging is disabled before the test starts. It is")
     print("enabled automatically when we reach the end of the test.")
 
-    custom_input("Press enter when ready...", False)
+    custom_input("Press enter when ready...", args.ignore_input)
     ds = DataSaver(args.output)
     ds.start()
 
@@ -40,12 +40,12 @@ def main(args):
     model = get_phone_model()
     print("Is the model %s correct?" % model.model)
 
-    custom_input("Press Enter to confirm...", False)
+    custom_input("Press Enter to confirm...", args.ignore_input)
 
     print("Disabling charging...")
     model.disable_charging()
 
-    custom_input("Is it disabled?", False)
+    custom_input("Is it disabled?", args.ignore_input)
 
     old_screentimeout = get_screen_timeout()
     print("Old screen timeout: {}".format(old_screentimeout))
@@ -63,9 +63,16 @@ def main(args):
 
         print("\nOn trial {} \n".format(str(trial)))
 
+        print("Installing app...")
+        if args.browser_apk:
+            install_package(args.browser_apk)
+
+        print("Attempting to start baseline browser test...")
+        start_browser()
+
         custom_input(
             "When the test is ready, start the measurements by pressing enter...",
-            False
+            args.ignore_input
         )
 
         print("Waiting for a charge counter drop...")
@@ -119,6 +126,8 @@ def main(args):
         ))
 
     set_screen_timeout(old_screentimeout)
+    if args.browser_apk:
+        uninstall_package()
 
     print("Enabling charging...")
     model.enable_charging()
@@ -130,6 +139,18 @@ def main(args):
 
 if __name__ == "__main__":
     parser = AndroidParser().get_parser()
+    parser.add_argument(
+        "--browser-apk",
+        help="If the browser is not installed, provide the path to the APK to install."
+             " If none is provided, we assume a single package already exists.",
+        default=None
+    )
+    parser.add_argument(
+        "--ignore-input",
+        help="If set, skips all requests for input (default is false).",
+        action="store_true",
+        default=False
+    )
     parser.add_argument(
         "--testtime",
         help="Time to run test for (in minutes, default is 1).",

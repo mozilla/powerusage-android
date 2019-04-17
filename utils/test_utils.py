@@ -15,6 +15,26 @@ def start_color_test(color):
     run_adb_command(command)
 
 
+def start_browser():
+    pkgname = get_mozilla_pkgname()
+
+    start_cmd = "am start -n {}/{}.{} ".format(
+        pkgname, pkgname, PACKAGE_ACTIVITY[pkgname]
+    )
+    if 'org.mozilla.firefox' in pkgname:
+        start_cmd = "am start -n org.mozilla.firefox/org.mozilla.gecko.BrowserApp "
+
+    command = [
+        "adb",
+        "shell",
+        start_cmd
+        + "-a android.intent.action.VIEW "
+        + "--ez showstartpane false",
+    ]
+
+    run_adb_command(command)
+
+
 def command_for_color(color):
     html = '<body style="background-color:%s"></body>' % color
     html_b64 = str(base64.b64encode(html.encode("ascii"))).lstrip("b").replace("'", "")
