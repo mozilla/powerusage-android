@@ -1,5 +1,7 @@
 import datetime
 import time
+import json
+import os
 
 from utils.android_parser import AndroidParser
 from utils.data_saver import DataSaver
@@ -10,6 +12,8 @@ from utils.adb_utils import (
     get_battery_info,
     get_battery_level,
     get_screen_timeout,
+    initialize_power_measurements,
+    finalize_power_measurements,
     set_screen_timeout,
     install_package,
     uninstall_package,
@@ -55,6 +59,7 @@ def main(args):
     args.test_percent_range.sort()
 
     for trial in range(args.trials):
+        currtestname = "%s_%s" % (args.test_name, str(trial))
         currlevel = get_battery_level()
         if currlevel > args.test_percent_range[1]:
             discharge_battery(args.test_percent_range[1], model=model)
@@ -73,16 +78,9 @@ def main(args):
         print("Drop detected, starting test")
         print("Start time: {}".format(datetime.datetime.utcnow()))
 
-        info = parse_battery_info(get_battery_info())
-        info["timestamp"] = time.time()
-        starttime = info["timestamp"]
-        ds.add(info, "batterydata")
-
-        print("Starting values:")
-        for k, v in info.items():
-            print("{}: {}".format(k, v))
-        start_cc = int(info["Charge counter"])
-        start_pc = int(info["level"])
+        print("Initializing power measurements")
+        initialize_power_measurements(ds.output, currtestname)
+        starttime = time.time()
 
         currtime = 0
         testtime_seconds = args.testtime * 60
@@ -94,29 +92,16 @@ def main(args):
             )
         finish_same_line()
 
-        info = parse_battery_info(get_battery_info())
-        info["timestamp"] = time.time()
-        ds.add(info, "batterydata")
+        power_data = finalize_power_measurements(ds.output, args.binary_name, currtestname)
+        print("Power data (in perfherder format):")
+        print("PERFHERDER_DATA: %s" % str(power_data))
 
-        print("End time: {}".format(datetime.datetime.utcnow()))
-        print("Final values:")
-        for k, v in info.items():
-            print("{}: {}".format(k, v))
-        end_cc = int(info["Charge counter"])
-        end_pc = int(info["level"])
-
-        results = {
-            'Charge counter used': start_cc - end_cc,
-            'Percent used': start_pc-end_pc
-        }
-        ds.add(results, "summary{}_".format(str(trial)))
-
-        print("\nCharge counter used: {}".format(
-            str(results['Charge counter used'])
-        ))
-        print("Percent used: {} \n".format(
-            str(results['Percent used'])
-        ))
+        filepath = os.path.join(
+            ds.output, 'perfherder_data_%s.json' % currtestname
+        )
+        print("\nSaving perfherder data to %s" % filepath)
+        with open(filepath, 'w') as f:
+            json.dump(power_data, f, indent=4)
 
     set_screen_timeout(old_screentimeout)
 
@@ -148,6 +133,19 @@ if __name__ == "__main__":
         default=[90, 100],
         nargs='+',
         type=int
+    )
+    parser.add_argument(
+        '--test-name',
+        help="Name of the test (used to name perfherder data).",
+        required=True,
+        type=str
+    )
+    parser.add_argument(
+        '--binary-name',
+        help="Binary name of the browser in testing. i.e. org.mozilla.geckoview_example. "
+        "Used for parsing power measurements.",
+        required=True,
+        type=str
     )
 
     args = parser.parse_args()

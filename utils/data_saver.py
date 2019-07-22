@@ -9,7 +9,7 @@ SAVERINTERVAL = 5  # seconds
 class DataSaver(Thread):
     def __init__(self, output):
         Thread.__init__(self)
-        self.output = os.path.join(output, "osbaseline" + str(int(time.time())))
+        self.output = os.path.join(output, "powertests-" + str(int(time.time())))
         os.mkdir(self.output)
         self.queue = []
         self.stop = False
